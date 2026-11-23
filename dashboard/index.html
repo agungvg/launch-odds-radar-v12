@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launch-Odds Radar — every value term fitted and tested held-out twice</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="wash" aria-hidden="true"></div>
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">TOKEN LAUNCH RADAR &middot; FROZEN SNAPSHOT 14 NOV 2026 &middot; 758 PROTOCOLS</p>
+    <h1>Launch-Odds <span class="grad">Radar</span></h1>
+    <p class="lede">Every value term fitted and tested held-out twice. Token odds from the labelled peers&rsquo; record. A costed farm plan on every row.</p>
+    <div class="hero-panels" id="hero-panels"></div>
+  </div>
+  <div class="floor" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="kpis" id="kpis" aria-label="Key figures"></section>
+
+  <section class="ledger" id="ledger" aria-label="Integrity strip"></section>
+
+  <section class="panel sliders" aria-label="Model sandbox">
+    <div class="sl-head">
+      <h2>Model sandbox</h2>
+      <p>Move the sliders and every verdict, net and range on this page re-prices live. The defaults are the model&rsquo;s own values.</p>
+    </div>
+    <div class="sl-grid">
+      <label>Deposit <b id="dep-val"></b> of implied value
+        <input type="range" id="dep-slider" min="0.005" max="0.1" step="0.005" value="0.02">
+        <span class="sl-note" id="dep-note"></span>
+      </label>
+      <label>Gas per round trip <b id="gas-val"></b>
+        <input type="range" id="gas-slider" min="5" max="50" step="5" value="15">
+        <span class="sl-note">Model gas is $15. Opportunity cost is 5% of the deposit.</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="panel chart-panel" aria-label="Size curve">
+    <div class="chart-head">
+      <h2>The size curve</h2>
+      <p>Log market-cap against log TVL for the 95 labelled protocols (dots), with the fitted curve through the board&rsquo;s implied ratios (line). Big protocols trade at a lower multiple &mdash; the curve bends down.</p>
+    </div>
+    <div id="chart"></div>
+    <div class="age-bars" id="age-bars" aria-label="Odds by age"></div>
+  </section>
+
+  <section class="panel board-panel" aria-label="Board">
+    <div class="board-head">
+      <h2>The board</h2>
+      <p id="board-count"></p>
+    </div>
+    <div class="filters">
+      <input id="f-search" type="search" placeholder="Search name or slug" aria-label="Search">
+      <select id="f-verdict" aria-label="Verdict">
+        <option value="">All verdicts</option>
+        <option>FARM</option><option>THIN</option><option>SKIP</option>
+      </select>
+      <select id="f-cat" aria-label="Category"><option value="">All categories</option></select>
+      <label class="chk"><input type="checkbox" id="f-watch"> Watchlist only</label>
+      <button id="exp-csv" type="button">Export CSV</button>
+      <button id="exp-json" type="button">Export JSON</button>
+    </div>
+    <div class="table-wrap">
+      <table id="board">
+        <thead><tr>
+          <th data-k="rank">Rank</th><th data-k="name">Protocol</th><th data-k="category">Category</th>
+          <th data-k="tvl_usd" class="num">TVL</th><th data-k="change_7d" class="num">7d</th>
+          <th data-k="age_days" class="num">Age</th><th data-k="implied_value_usd" class="num">Implied</th>
+          <th class="num">P25&ndash;P75</th><th data-k="odds" class="num">Odds</th>
+          <th data-k="net_usd" class="num">Net</th><th data-k="verdict">Verdict</th>
+        </tr></thead>
+        <tbody id="board-body"></tbody>
+      </table>
+    </div>
+    <p class="fine">Ranks in the filtered view are the board ranks, kept in order. Net is the expected farm value at the model deposit, after gas and opportunity cost.</p>
+  </section>
+
+  <section class="panel live-panel" aria-label="Live tokens">
+    <h2>Live tokens &mdash; the market&rsquo;s own values</h2>
+    <p>These protocols already record a token, so the board shows the market&rsquo;s value, never a model&rsquo;s. The 24 largest by market cap:</p>
+    <div class="table-wrap"><table id="live"><thead><tr>
+      <th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">Ratio</th>
+    </tr></thead><tbody id="live-body"></tbody></table></div>
+  </section>
+
+  <section class="panel model-panel" aria-label="Model notes">
+    <h2>How the numbers are made</h2>
+    <div id="model-notes"></div>
+  </section>
+
+  <footer id="footer"></footer>
+</main>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-card" role="dialog" aria-label="Protocol detail">
+    <button id="drawer-close" type="button" aria-label="Close">&times;</button>
+    <div id="drawer-body"></div>
+  </div>
+</div>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
